@@ -97,9 +97,7 @@
         .player-card {
             box-shadow: 0 4px 10px color-mix(in srgb, var(--team-secondary) 35%, transparent);
         }
-
         .player-card .name { color: color-mix(in srgb, var(--team-primary) 72%, #ffffff 28%); }
-
         .fa-item {
             border-left: 4px solid #555;
             border-radius: 6px;

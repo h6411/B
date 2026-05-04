@@ -140,6 +140,7 @@ const TEAM_THEMES = {
 
 function applyTeamTheme(team) {
     const theme = TEAM_THEMES[team] || TEAM_THEMES['KIA 타이거즈'];
+    document.body.style.setProperty('--accent', theme.primary);
     document.body.style.setProperty('--team-primary', theme.primary);
     document.body.style.setProperty('--team-secondary', theme.secondary);
     document.body.setAttribute('data-team', team);

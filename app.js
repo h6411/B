@@ -141,6 +141,7 @@ const TEAM_THEMES = {
 function applyTeamTheme(team) {
     const theme = TEAM_THEMES[team] || TEAM_THEMES['KIA 타이거즈'];
     document.body.style.setProperty('--accent', theme.primary);
+    document.body.style.setProperty('--team-primary', theme.primary);
     document.body.style.setProperty('--team-secondary', theme.secondary);
     document.body.setAttribute('data-team', team);
 }
@@ -327,6 +328,7 @@ function openFAModal() {
             const grade = getGrade(p.currentStat);
             const div = document.createElement('div');
             div.className = 'fa-item';
+            div.dataset.team = p.team;
             div.style.cursor = 'pointer';
             div.onclick = () => openPlayerModal(p);
             div.innerHTML = `
@@ -351,6 +353,7 @@ Object.keys(database).forEach(team => {
     const btn = document.createElement('button');
     btn.className = `tab-btn ${team === currentTeam ? 'active' : ''}`;
     btn.innerText = team;
+    btn.dataset.team = team;
     btn.onclick = () => { currentTeam = team; loadTeam(); };
     tabsContainer.appendChild(btn);
 });
@@ -462,6 +465,7 @@ simulatedRoster = simulatedRoster.filter(p => {
 
         const card = document.createElement('div');
         card.className = `player-card border-${grade}`;
+        card.dataset.team = currentTeam;
         card.onclick = () => openPlayerModal(player._origin);
         card.innerHTML = `
             <div class="info">

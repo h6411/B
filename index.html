@@ -26,6 +26,24 @@
         <button class="fa-search-btn" onclick="openFAModal()">💰 FA 마켓 검색</button>
     </div>
 
+    <div class="toolbar">
+        <div class="toolbar-item">
+            <label for="searchInput">검색</label>
+            <input type="text" id="searchInput" placeholder="선수 이름 검색">
+        </div>
+        <div class="toolbar-item">
+            <label for="sortSelect">정렬</label>
+            <select id="sortSelect">
+                <option value="stat_desc">스탯 높은순</option>
+                <option value="stat_asc">스탯 낮은순</option>
+                <option value="age_asc">나이 어린순</option>
+                <option value="age_desc">나이 많은순</option>
+                <option value="name_asc">이름 가나다순</option>
+            </select>
+        </div>
+        <div id="result-count" class="result-count">표시: - / 전체: -</div>
+    </div>
+
     <div id="team-dashboard" class="team-dashboard">
         <div class="dash-item">
             <div class="dash-label">평균 연령</div>

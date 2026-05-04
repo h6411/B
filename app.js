@@ -146,6 +146,9 @@ const pList = document.getElementById('pitcher-list');
 const bList = document.getElementById('batter-list');
 const slider = document.getElementById('yearSlider');
 const displayYear = document.getElementById('displayYear');
+const searchInput = document.getElementById('searchInput');
+const sortSelect = document.getElementById('sortSelect');
+const resultCount = document.getElementById('result-count');
 
 function switchMode(mode) {
     const viewList = document.getElementById('view-list');
@@ -301,6 +304,8 @@ slider.addEventListener('input', e => {
     displayYear.innerText = currentSeason;
     loadTeam();
 });
+searchInput.addEventListener('input', loadTeam);
+sortSelect.addEventListener('change', loadTeam);
 
 function loadTeam() {
     document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.toggle('active', btn.innerText === currentTeam));
@@ -313,10 +318,38 @@ function loadTeam() {
         return;
     }
 
-    const simulatedRoster = roster.map(p => {
+    let simulatedRoster = roster.map(p => {
         const simData = calculateFutureStat(p, currentSeason);
         return { ...p, simAge: simData.age, simStat: simData.stat, _origin: p };
-    }).sort((a, b) => b.simStat - a.simStat);
+    });
+
+    const query = (searchInput.value || '').trim().toLowerCase();
+    if (query) simulatedRoster = simulatedRoster.filter(p => p.name.toLowerCase().includes(query));
+
+    simulatedRoster.sort((a, b) => {
+        const sortValue = sortSelect.value;
+        if (sortValue === 'stat_asc') return a.simStat - b.simStat;
+        if (sortValue === 'age_asc') return a.simAge - b.simAge;
+        if (sortValue === 'age_desc') return b.simAge - a.simAge;
+        if (sortValue === 'name_asc') return a.name.localeCompare(b.name, 'ko');
+        return b.simStat - a.simStat;
+    });
+
+    resultCount.innerText = `표시: ${simulatedRoster.length} / 전체: ${roster.length}`;
+
+    if (simulatedRoster.length === 0) {
+        pList.innerHTML = '<p style="color:#aaa; text-align:center;">조건에 맞는 선수가 없습니다.</p>';
+        bList.innerHTML = '<p style="color:#aaa; text-align:center;">조건에 맞는 선수가 없습니다.</p>';
+        document.getElementById('dash-age').innerText = '-세';
+        document.getElementById('dash-dist').innerHTML = `
+            <span class="dist-box bg-S text-black">S 0</span>
+            <span class="dist-box bg-A text-black">A 0</span>
+            <span class="dist-box bg-B text-black">B 0</span>
+            <span class="dist-box bg-C text-black">C 0</span>
+            <span class="dist-box bg-D text-black">D 0</span>
+        `;
+        return;
+    }
 
     let totalAge = 0;
     const gradeCounts = { S: 0, A: 0, B: 0, C: 0, D: 0 };

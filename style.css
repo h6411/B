@@ -14,15 +14,18 @@
             --opt-color: #a55eea;
             --modal-overlay: rgba(0, 0, 0, 0.7);
             --graph-stat: #ff5e5e;
+            --team-secondary: #000000;
         }
 
         body {
             font-family: 'Pretendard', 'Malgun Gothic', sans-serif;
-            background-color: var(--bg-color);
+            background: radial-gradient(circle at top, color-mix(in srgb, var(--team-secondary) 28%, var(--bg-color) 72%) 0%, var(--bg-color) 55%);
             color: var(--text-main);
             margin: 0;
             padding: 20px;
         }
+
+
 
         .container { max-width: 1200px; margin: 0 auto; }
 
@@ -625,17 +628,18 @@
                 font-size: 0.82rem;
                 line-height: 1.35;
             }
+            #view-depth {
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+                padding-bottom: 8px;
+            }
             .field-container {
-                height: auto;
-                min-height: 360px;
-                border-radius: 14px;
-                padding-bottom: 12px;
+                width: 900px;
+                min-width: 900px;
+                height: 600px;
+                border-radius: 20px 20px 50% 50%;
+                padding-bottom: 0;
             }
-            .base-diamond { display: none; }
-            .pos-box {
-                position: static;
-                width: 100%;
-                margin-bottom: 8px;
-            }
+            .base-diamond { display: block; }
             .pos-box h3 { font-size: 0.75rem; }
         }

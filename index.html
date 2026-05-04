@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>가상야구리그 로스터 매니저 (2080 스토브리그 에디션)</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="container">
+    <div class="time-machine">
+        <div class="time-display"><span id="displayYear">2080</span> 스토브리그</div>
+        <input type="range" id="yearSlider" min="2080" max="2086" value="2080" step="1">
+        <div class="time-labels">
+            <span>2080 (2079 시즌 종료)</span>
+            <span>2086 (Future)</span>
+        </div>
+    </div>
+
+    <div class="tabs" id="teamTabs"></div>
+
+    <div class="view-controls">
+        <button class="view-btn active" onclick="switchMode('list')" id="btn-list">📋 리스트 뷰</button>
+        <button class="view-btn" onclick="switchMode('depth')" id="btn-depth">⚾ 뎁스 차트</button>
+        <button class="fa-search-btn" onclick="openFAModal()">💰 FA 마켓 검색</button>
+    </div>
+
+    <div id="team-dashboard" class="team-dashboard">
+        <div class="dash-item">
+            <div class="dash-label">평균 연령</div>
+            <div class="dash-value" id="dash-age">-세</div>
+        </div>
+        <div class="dash-item">
+            <div class="dash-label">등급 분포</div>
+            <div class="grade-dist" id="dash-dist">
+                <span class="dist-box bg-S text-black">S 0</span>
+                <span class="dist-box bg-A text-black">A 0</span>
+                <span class="dist-box bg-B text-black">B 0</span>
+                <span class="dist-box bg-C text-black">C 0</span>
+                <span class="dist-box bg-D text-black">D 0</span>
+            </div>
+        </div>
+    </div>
+
+    <div id="view-depth" class="field-container hidden">
+        <div class="base-diamond"></div>
+        <div id="depth-C" class="pos-box p-box-c"><h3>C (포수)</h3><div class="list"></div></div>
+        <div id="depth-P" class="pos-box p-box-p"><h3>P (투수)</h3><div class="list"></div></div>
+        <div id="depth-1B" class="pos-box p-box-1b"><h3>1B (1루수)</h3><div class="list"></div></div>
+        <div id="depth-2B" class="pos-box p-box-2b"><h3>2B (2루수)</h3><div class="list"></div></div>
+        <div id="depth-3B" class="pos-box p-box-3b"><h3>3B (3루수)</h3><div class="list"></div></div>
+        <div id="depth-SS" class="pos-box p-box-ss"><h3>SS (유격수)</h3><div class="list"></div></div>
+        <div id="depth-LF" class="pos-box p-box-lf"><h3>LF (좌익수)</h3><div class="list"></div></div>
+        <div id="depth-CF" class="pos-box p-box-cf"><h3>CF (중견수)</h3><div class="list"></div></div>
+        <div id="depth-RF" class="pos-box p-box-rf"><h3>RF (우익수)</h3><div class="list"></div></div>
+    </div>
+
+    <div id="view-list" class="roster-section">
+        <div class="column">
+            <h2>🔥 투수 (Pitcher)</h2>
+            <div id="pitcher-list"></div>
+        </div>
+        <div class="column">
+            <h2>⚡ 타자 (Batter)</h2>
+            <div id="batter-list"></div>
+        </div>
+    </div>
+</div>
+
+<div class="modal-overlay" id="playerModal" onclick="closeModal(event, 'playerModal')">
+    <div class="modal">
+        <span class="close-btn" onclick="closeModal(event, 'playerModal')">&times;</span>
+        <div class="modal-header">
+            <h2 id="modal-name">선수 이름</h2>
+            <div class="modal-sub" id="modal-detail">포지션 | 나이</div>
+        </div>
+        <div class="modal-note" id="modal-note">특이사항 없음</div>
+
+        <h3 style="margin-bottom: 5px; color: #ddd; border-top:1px solid #444; padding-top:15px;">📈 미래 스탯 예측 (Graph)</h3>
+        <div class="graph-legend">
+            <div class="legend-item"><div class="dot" style="background:var(--graph-stat)"></div>Stat</div>
+        </div>
+        <div class="graph-container" id="chart-container"></div>
+
+        <table class="scout-table">
+            <thead>
+                <tr>
+                    <th>Year</th>
+                    <th>Age</th>
+                    <th>Stat</th>
+                    <th>Grade</th>
+                    <th>Contract</th>
+                </tr>
+            </thead>
+            <tbody id="modal-table-body"></tbody>
+        </table>
+    </div>
+</div>
+
+<div class="modal-overlay" id="faModal" onclick="closeModal(event, 'faModal')">
+    <div class="modal">
+        <span class="close-btn" onclick="closeModal(event, 'faModal')">&times;</span>
+        <div class="modal-header">
+            <h2>💰 <span id="fa-year-title">2080</span> FA Market</h2>
+            <div class="modal-sub">해당 스토브리그 시점의 전체 FA/옵트아웃 대상 선수 목록입니다.</div>
+        </div>
+        <div id="fa-list-body" class="fa-list-container"></div>
+    </div>
+</div>
+
+<script src="data.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

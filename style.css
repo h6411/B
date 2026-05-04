@@ -1,17 +1,17 @@
 /* 가상야구리그 로스터 매니저 - 디자인 */
 
 :root {
-            --bg-color: #1e1e2e;
-            --card-bg: #2a2a40;
-            --text-main: #e0e0e0;
-            --accent: #4cc9f0;
-            --grade-s: #ffd700;
-            --grade-a: #ff5e5e;
-            --grade-b: #4cc9f0;
-            --grade-c: #a0a0a0;
-            --grade-d: #6c7086;
-            --urgent: #ff4757;
-            --opt-color: #a55eea;
+            --bg-color: #f5f6f8;
+            --card-bg: #ffffff;
+            --text-main: #111111;
+            --accent: #111111;
+            --grade-s: #111111;
+            --grade-a: #333333;
+            --grade-b: #555555;
+            --grade-c: #777777;
+            --grade-d: #999999;
+            --urgent: #000000;
+            --opt-color: #222222;
             --modal-overlay: rgba(0, 0, 0, 0.7);
             --graph-stat: #ff5e5e;
             --team-primary: #4cc9f0;
@@ -20,7 +20,7 @@
 
         body {
             font-family: 'Pretendard', 'Malgun Gothic', sans-serif;
-            background: radial-gradient(circle at top, color-mix(in srgb, var(--team-secondary) 28%, var(--bg-color) 72%) 0%, var(--bg-color) 55%);
+            background: var(--bg-color);
             color: var(--text-main);
             margin: 0;
             padding: 20px;
@@ -28,7 +28,7 @@
 
 
 
-        .container { max-width: 1200px; margin: 0 auto; }
+        .container { max-width: 1280px; margin: 0 auto; }
 
         .time-machine {
             background: #2d3436;
@@ -76,7 +76,7 @@
             color: white;
             padding: 10px 20px;
             cursor: pointer;
-            border-radius: 5px;
+            border-radius: 999px;
             font-weight: bold;
             transition: 0.3s;
         }
@@ -88,27 +88,16 @@
             border-color: var(--accent);
         }
 
-        .tab-btn[data-team='LG 트윈스'] { border-bottom: 2px solid #c30452; }
-        .tab-btn[data-team='KIA 타이거즈'] { border-bottom: 2px solid #ea0029; }
-        .tab-btn[data-team='삼성 라이온즈'] { border-bottom: 2px solid #074ca1; }
-        .tab-btn[data-team='두산 베어스'] { border-bottom: 2px solid #eb1d25; }
-        .tab-btn[data-team='롯데 자이언츠'] { border-bottom: 2px solid #d00f31; }
-
         .player-card {
             box-shadow: 0 4px 10px color-mix(in srgb, var(--team-secondary) 35%, transparent);
         }
-        .player-card .name { color: color-mix(in srgb, var(--team-primary) 72%, #ffffff 28%); }
+        .player-card .name { color: inherit; }
         .fa-item {
             border-left: 4px solid #555;
             border-radius: 6px;
             margin-bottom: 6px;
             background: rgba(255,255,255,0.02);
         }
-        .fa-item[data-team='LG 트윈스'] { border-left-color: #c30452; }
-        .fa-item[data-team='KIA 타이거즈'] { border-left-color: #ea0029; }
-        .fa-item[data-team='삼성 라이온즈'] { border-left-color: #074ca1; }
-        .fa-item[data-team='두산 베어스'] { border-left-color: #eb1d25; }
-        .fa-item[data-team='롯데 자이언츠'] { border-left-color: #d00f31; }
 
         .view-controls {
             display: flex;
@@ -217,7 +206,7 @@
             align-items: center;
             justify-content: space-between;
             border-left: 5px solid gray;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.08);
             transition: all 0.2s ease;
             cursor: pointer;
         }
@@ -225,7 +214,7 @@
         .player-card:hover {
             transform: translateY(-3px);
             box-shadow: 0 6px 12px rgba(0,0,0,0.5);
-            background-color: #343450;
+            background-color: #f0f2f5;
         }
 
         .info { flex: 1; }
@@ -282,7 +271,7 @@
             width: 100%;
             max-width: 900px;
             height: 600px;
-            background: radial-gradient(circle at 50% 100%, #dcdde1 15%, #27ae60 16%, #2ecc71 100%);
+            background: linear-gradient(180deg, #f9fafb 0%, #eef1f5 100%);
             margin: 0 auto 30px auto;
             border: 4px solid #fff;
             border-radius: 20px 20px 50% 50%;
@@ -454,7 +443,7 @@
             margin: 15px 0;
             padding: 10px;
             background: #222;
-            border-radius: 5px;
+            border-radius: 999px;
             color: #81ecec;
             font-style: italic;
             border-left: 3px solid #81ecec;

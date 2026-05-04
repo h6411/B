@@ -508,7 +508,7 @@ simulatedRoster = simulatedRoster.filter(p => {
                 div.className = 'pos-player';
                 div.style.cursor = 'pointer';
                 div.onclick = e => { e.stopPropagation(); openPlayerModal(p._origin); };
-                div.innerHTML = `<span class="pos-name text-${pGrade}">${p.name}</span><span class="pos-stat text-${pGrade}">${p.simStat}</span>`;
+                div.innerHTML = `<span class="pos-name">${p.name}</span><span class="pos-stat">${p.simStat}</span>`;
                 boxList.appendChild(div);
             });
             if (players.length > 3) {
@@ -523,7 +523,7 @@ simulatedRoster = simulatedRoster.filter(p => {
                     pDiv.className = 'pos-player';
                     pDiv.style.cursor = 'pointer';
                     pDiv.onclick = e => { e.stopPropagation(); openPlayerModal(p._origin); };
-                    pDiv.innerHTML = `<span class="pos-name text-${pGrade}">${p.name}</span><span class="pos-stat text-${pGrade}">${p.simStat}</span>`;
+                    pDiv.innerHTML = `<span class="pos-name">${p.name}</span><span class="pos-stat">${p.simStat}</span>`;
                     popup.appendChild(pDiv);
                 });
                 moreTrigger.appendChild(popup);

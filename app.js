@@ -146,6 +146,10 @@ const pList = document.getElementById('pitcher-list');
 const bList = document.getElementById('batter-list');
 const slider = document.getElementById('yearSlider');
 const displayYear = document.getElementById('displayYear');
+const searchInput = document.getElementById('searchInput');
+const sortSelect = document.getElementById('sortSelect');
+const resultCount = document.getElementById('result-count');
+const clearFilterBtn = document.getElementById('clearFilterBtn');
 
 function switchMode(mode) {
     const viewList = document.getElementById('view-list');
@@ -302,6 +306,31 @@ slider.addEventListener('input', e => {
     loadTeam();
 });
 
+searchInput.addEventListener('input', loadTeam);
+sortSelect.addEventListener('change', loadTeam);
+clearFilterBtn.addEventListener('click', () => {
+    searchInput.value = '';
+    sortSelect.value = 'stat_desc';
+    loadTeam();
+});
+
+function compareName(a, b) {
+    return a.name.localeCompare(b.name, 'ko-KR', { sensitivity: 'base', numeric: true });
+}
+
+function applySort(players, sortKey) {
+    const cloned = [...players];
+    const sorters = {
+        stat_desc: (a, b) => (b.simStat - a.simStat) || compareName(a, b),
+        stat_asc: (a, b) => (a.simStat - b.simStat) || compareName(a, b),
+        age_asc: (a, b) => (a.simAge - b.simAge) || (b.simStat - a.simStat) || compareName(a, b),
+        age_desc: (a, b) => (b.simAge - a.simAge) || (b.simStat - a.simStat) || compareName(a, b),
+        name_asc: (a, b) => compareName(a, b) || (b.simStat - a.simStat)
+    };
+    cloned.sort(sorters[sortKey] || sorters.stat_desc);
+    return cloned;
+}
+
 function loadTeam() {
     document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.toggle('active', btn.innerText === currentTeam));
     pList.innerHTML = '';
@@ -313,10 +342,32 @@ function loadTeam() {
         return;
     }
 
-    const simulatedRoster = roster.map(p => {
+    let simulatedRoster = roster.map(p => {
         const simData = calculateFutureStat(p, currentSeason);
         return { ...p, simAge: simData.age, simStat: simData.stat, _origin: p };
-    }).sort((a, b) => b.simStat - a.simStat);
+    });
+
+    const query = (searchInput.value || '').trim().toLowerCase().normalize('NFKC');
+    simulatedRoster = simulatedRoster.filter(p => !query || p.name.toLowerCase().normalize('NFKC').includes(query));
+
+    const sortValue = sortSelect.value;
+    simulatedRoster = applySort(simulatedRoster, sortValue);
+
+    resultCount.innerText = `표시: ${simulatedRoster.length} / 전체: ${roster.length}`;
+
+    if (simulatedRoster.length === 0) {
+        pList.innerHTML = '<p style="color:#aaa; text-align:center;">조건에 맞는 선수가 없습니다.</p>';
+        bList.innerHTML = '<p style="color:#aaa; text-align:center;">조건에 맞는 선수가 없습니다.</p>';
+        document.getElementById('dash-age').innerText = '-세';
+        document.getElementById('dash-dist').innerHTML = `
+            <span class="dist-box bg-S text-black">S 0</span>
+            <span class="dist-box bg-A text-black">A 0</span>
+            <span class="dist-box bg-B text-black">B 0</span>
+            <span class="dist-box bg-C text-black">C 0</span>
+            <span class="dist-box bg-D text-black">D 0</span>
+        `;
+        return;
+    }
 
     let totalAge = 0;
     const gradeCounts = { S: 0, A: 0, B: 0, C: 0, D: 0 };

@@ -47,6 +47,39 @@ function getFutureOptOutText(player, stoveSeason) {
     return "";
 }
 
+
+function getDisplayNoteForSeason(player, season = currentSeason) {
+    const baseNote = player.note || 'X';
+    if (baseNote === 'X') return 'X';
+
+    const yearsPassed = Math.max(0, season - baseSeason);
+    let note = baseNote;
+
+    const rookieMatch = note.match(/신인버프\s*(\d+)/);
+    if (rookieMatch) {
+        const original = parseInt(rookieMatch[1], 10) || 0;
+        const remaining = Math.max(original - (yearsPassed * 10), 0);
+        if (remaining > 0) note = note.replace(/신인버프\s*\d+/, `신인버프 ${remaining}`);
+        else note = note.replace(/신인버프\s*\d+/, '');
+    }
+
+    if (yearsPassed >= 1) {
+        note = note.replace(/군입대버프\s*10/g, '');
+        note = note.replace(/군대버프\s*10/g, '');
+    }
+
+    note = note
+        .replace(/\s{2,}/g, ' ')
+        .replace(/\s*\/\s*/g, ' / ')
+        .replace(/\s+,\s+/g, ', ')
+        .trim();
+
+    note = note.replace(/^\/+|\/+$/g, '').trim();
+    note = note.replace(/^\/|\/$/g, '').trim();
+
+    return note ? note : 'X';
+}
+
 function parseRosterText(text) {
     const db = {};
     let current = null;
@@ -223,7 +256,8 @@ function openPlayerModal(player) {
     const currentSim = calculateFutureStat(player, currentSeason);
     const optOutDisplay = player.optOut !== 'X' ? ` | 옵트아웃 ${player.optOut}` : '';
     modalDetail.innerText = `${player.pos} | ${player.throwBat || '미상'} | ${currentSim.age}세 | FA ${player.fa}${optOutDisplay}`;
-    modalNote.innerText = player.note !== 'X' ? player.note : '특이사항 없음';
+    const displayNote = getDisplayNoteForSeason(player, currentSeason);
+    modalNote.innerText = displayNote !== 'X' ? displayNote : '특이사항 없음';
 
     modalTableBody.innerHTML = '';
     const chartData = [];
@@ -401,6 +435,8 @@ simulatedRoster = simulatedRoster.filter(p => {
         if (diff > 0) changeText = `<span class="stat-change-up">▲${diff}</span>`;
         else if (diff < 0) changeText = `<span class="stat-change-down">▼${Math.abs(diff)}</span>`;
 
+        const displayNote = getDisplayNoteForSeason(player._origin, currentSeason);
+
         const card = document.createElement('div');
         card.className = `player-card border-${grade}`;
         card.onclick = () => openPlayerModal(player._origin);
@@ -412,7 +448,7 @@ simulatedRoster = simulatedRoster.filter(p => {
                     ${changeText}
                 </div>
                 <div class="detail">${player.pos} | ${player.throwBat || '미상'} | ${player.simAge}세</div>
-                <div class="notes">${player.note !== 'X' ? player.note : ''}</div>
+                <div class="notes">${displayNote !== 'X' ? displayNote : ''}</div>
                 <div class="contract-tags">${faTag}${optTag}</div>
                 <div class="stat-bar-bg"><div class="stat-bar-fill bg-${grade}" style="width: ${Math.min(player.simStat / 2.5, 100)}%"></div></div>
             </div>

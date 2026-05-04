@@ -20,7 +20,7 @@
 
         body {
             font-family: 'Pretendard', 'Malgun Gothic', sans-serif;
-            background-color: var(--bg-color);
+            background: radial-gradient(circle at top, color-mix(in srgb, var(--team-secondary) 28%, var(--bg-color) 72%) 0%, var(--bg-color) 55%);
             color: var(--text-main);
             margin: 0;
             padding: 20px;
@@ -667,4 +667,10 @@
             }
             .base-diamond { display: block; }
             .pos-box h3 { font-size: 0.75rem; }
+            .pos-player {
+                font-size: 0.72rem;
+            }
+            .pos-name {
+                max-width: calc(100% - 42px);
+            }
         }

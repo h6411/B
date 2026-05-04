@@ -91,6 +91,28 @@
             margin-bottom: 15px;
             flex-wrap: wrap;
         }
+        .filter-controls {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 8px;
+            flex-wrap: wrap;
+        }
+        .filter-controls input,
+        .filter-controls select {
+            background: #2a2a40;
+            color: #e0e0e0;
+            border: 1px solid #555;
+            border-radius: 8px;
+            padding: 8px 10px;
+            font-size: 0.9rem;
+        }
+        .result-count {
+            text-align: center;
+            color: #aaa;
+            font-size: 0.85rem;
+            margin-bottom: 12px;
+        }
 
         .view-btn {
             background: #444;

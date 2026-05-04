@@ -47,6 +47,39 @@ function getFutureOptOutText(player, stoveSeason) {
     return "";
 }
 
+
+function getDisplayNoteForSeason(player, season = currentSeason) {
+    const baseNote = player.note || 'X';
+    if (baseNote === 'X') return 'X';
+
+    const yearsPassed = Math.max(0, season - baseSeason);
+    let note = baseNote;
+
+    const rookieMatch = note.match(/신인버프\s*(\d+)/);
+    if (rookieMatch) {
+        const original = parseInt(rookieMatch[1], 10) || 0;
+        const remaining = Math.max(original - (yearsPassed * 10), 0);
+        if (remaining > 0) note = note.replace(/신인버프\s*\d+/, `신인버프 ${remaining}`);
+        else note = note.replace(/신인버프\s*\d+/, '');
+    }
+
+    if (yearsPassed >= 1) {
+        note = note.replace(/군입대버프\s*10/g, '');
+        note = note.replace(/군대버프\s*10/g, '');
+    }
+
+    note = note
+        .replace(/\s{2,}/g, ' ')
+        .replace(/\s*\/\s*/g, ' / ')
+        .replace(/\s+,\s+/g, ', ')
+        .trim();
+
+    note = note.replace(/^\/+|\/+$/g, '').trim();
+    note = note.replace(/^\/|\/$/g, '').trim();
+
+    return note ? note : 'X';
+}
+
 function parseRosterText(text) {
     const db = {};
     let current = null;
@@ -96,6 +129,22 @@ function parseRosterText(text) {
 }
 
 const database = parseRosterText(rawRosterText);
+
+const TEAM_THEMES = {
+    'LG 트윈스': { primary: '#c30452', secondary: '#000000' },
+    'KIA 타이거즈': { primary: '#ea0029', secondary: '#06141f' },
+    '삼성 라이온즈': { primary: '#074ca1', secondary: '#c0c0c0' },
+    '두산 베어스': { primary: '#1a1748', secondary: '#eb1d25' },
+    '롯데 자이언츠': { primary: '#041e42', secondary: '#d00f31' }
+};
+
+function applyTeamTheme(team) {
+    const theme = TEAM_THEMES[team] || TEAM_THEMES['KIA 타이거즈'];
+    document.body.style.setProperty('--team-primary', theme.primary);
+    document.body.style.setProperty('--team-secondary', theme.secondary);
+    document.body.setAttribute('data-team', team);
+}
+
 
 function getGrade(stat) {
     if (stat >= 201) return "S";
@@ -179,10 +228,14 @@ const chartContainer = document.getElementById('chart-container');
 const faModal = document.getElementById('faModal');
 const faYearTitle = document.getElementById('fa-year-title');
 const faListBody = document.getElementById('fa-list-body');
+let currentModalPlayer = null;
 
 function closeModal(e, id) {
     const modal = document.getElementById(id);
-    if (e.target === modal || e.target.classList.contains('close-btn')) modal.classList.remove('active');
+    if (e.target === modal || e.target.classList.contains('close-btn')) {
+        modal.classList.remove('active');
+        if (id === 'playerModal') currentModalPlayer = null;
+    }
 }
 
 function drawChart(data) {
@@ -219,11 +272,13 @@ function getContractTextForSeason(player, stoveSeason) {
 }
 
 function openPlayerModal(player) {
+    currentModalPlayer = player;
     modalName.innerText = player.name;
     const currentSim = calculateFutureStat(player, currentSeason);
     const optOutDisplay = player.optOut !== 'X' ? ` | 옵트아웃 ${player.optOut}` : '';
     modalDetail.innerText = `${player.pos} | ${player.throwBat || '미상'} | ${currentSim.age}세 | FA ${player.fa}${optOutDisplay}`;
-    modalNote.innerText = player.note !== 'X' ? player.note : '특이사항 없음';
+    const displayNote = getDisplayNoteForSeason(player, currentSeason);
+    modalNote.innerText = displayNote !== 'X' ? displayNote : '특이사항 없음';
 
     modalTableBody.innerHTML = '';
     const chartData = [];
@@ -272,6 +327,7 @@ function openFAModal() {
             const grade = getGrade(p.currentStat);
             const div = document.createElement('div');
             div.className = 'fa-item';
+            div.dataset.team = p.team;
             div.style.cursor = 'pointer';
             div.onclick = () => openPlayerModal(p);
             div.innerHTML = `
@@ -296,6 +352,7 @@ Object.keys(database).forEach(team => {
     const btn = document.createElement('button');
     btn.className = `tab-btn ${team === currentTeam ? 'active' : ''}`;
     btn.innerText = team;
+    btn.dataset.team = team;
     btn.onclick = () => { currentTeam = team; loadTeam(); };
     tabsContainer.appendChild(btn);
 });
@@ -304,6 +361,7 @@ slider.addEventListener('input', e => {
     currentSeason = parseInt(e.target.value, 10);
     displayYear.innerText = currentSeason;
     loadTeam();
+    if (modalOverlay.classList.contains('active') && currentModalPlayer) openPlayerModal(currentModalPlayer);
 });
 
 searchInput.addEventListener('input', loadTeam);
@@ -311,6 +369,7 @@ gradeFilter.addEventListener('change', loadTeam);
 sortSelect.addEventListener('change', loadTeam);
 
 function loadTeam() {
+    applyTeamTheme(currentTeam);
     document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.toggle('active', btn.innerText === currentTeam));
     pList.innerHTML = '';
     bList.innerHTML = '';
@@ -333,7 +392,6 @@ simulatedRoster = simulatedRoster.filter(p => {
     const matchedGrade = gradeValue === 'ALL' || getGrade(p.simStat) === gradeValue;
     return matchedName && matchedGrade;
 });
-    });
 
     const sortValue = sortSelect.value;
     simulatedRoster.sort((a, b) => {
@@ -402,8 +460,11 @@ simulatedRoster = simulatedRoster.filter(p => {
         if (diff > 0) changeText = `<span class="stat-change-up">▲${diff}</span>`;
         else if (diff < 0) changeText = `<span class="stat-change-down">▼${Math.abs(diff)}</span>`;
 
+        const displayNote = getDisplayNoteForSeason(player._origin, currentSeason);
+
         const card = document.createElement('div');
         card.className = `player-card border-${grade}`;
+        card.dataset.team = currentTeam;
         card.onclick = () => openPlayerModal(player._origin);
         card.innerHTML = `
             <div class="info">
@@ -413,7 +474,7 @@ simulatedRoster = simulatedRoster.filter(p => {
                     ${changeText}
                 </div>
                 <div class="detail">${player.pos} | ${player.throwBat || '미상'} | ${player.simAge}세</div>
-                <div class="notes">${player.note !== 'X' ? player.note : ''}</div>
+                <div class="notes">${displayNote !== 'X' ? displayNote : ''}</div>
                 <div class="contract-tags">${faTag}${optTag}</div>
                 <div class="stat-bar-bg"><div class="stat-bar-fill bg-${grade}" style="width: ${Math.min(player.simStat / 2.5, 100)}%"></div></div>
             </div>

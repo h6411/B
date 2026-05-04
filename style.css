@@ -14,6 +14,8 @@
             --opt-color: #a55eea;
             --modal-overlay: rgba(0, 0, 0, 0.7);
             --graph-stat: #ff5e5e;
+            --team-primary: #4cc9f0;
+            --team-secondary: #000000;
         }
 
         body {
@@ -23,6 +25,8 @@
             margin: 0;
             padding: 20px;
         }
+
+
 
         .container { max-width: 1200px; margin: 0 auto; }
 
@@ -39,7 +43,7 @@
         .time-display {
             font-size: 2.2rem;
             font-weight: bold;
-            color: var(--accent);
+            color: #e9eef5;
             margin-bottom: 10px;
         }
 
@@ -83,6 +87,28 @@
             color: #000;
             border-color: var(--accent);
         }
+
+        .tab-btn[data-team='LG 트윈스'] { border-bottom: 2px solid #c30452; }
+        .tab-btn[data-team='KIA 타이거즈'] { border-bottom: 2px solid #ea0029; }
+        .tab-btn[data-team='삼성 라이온즈'] { border-bottom: 2px solid #074ca1; }
+        .tab-btn[data-team='두산 베어스'] { border-bottom: 2px solid #eb1d25; }
+        .tab-btn[data-team='롯데 자이언츠'] { border-bottom: 2px solid #d00f31; }
+
+        .player-card {
+            box-shadow: 0 4px 10px color-mix(in srgb, var(--team-secondary) 35%, transparent);
+        }
+
+        .fa-item {
+            border-left: 4px solid #555;
+            border-radius: 6px;
+            margin-bottom: 6px;
+            background: rgba(255,255,255,0.02);
+        }
+        .fa-item[data-team='LG 트윈스'] { border-left-color: #c30452; }
+        .fa-item[data-team='KIA 타이거즈'] { border-left-color: #ea0029; }
+        .fa-item[data-team='삼성 라이온즈'] { border-left-color: #074ca1; }
+        .fa-item[data-team='두산 베어스'] { border-left-color: #eb1d25; }
+        .fa-item[data-team='롯데 자이언츠'] { border-left-color: #d00f31; }
 
         .view-controls {
             display: flex;
@@ -625,17 +651,18 @@
                 font-size: 0.82rem;
                 line-height: 1.35;
             }
+            #view-depth {
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+                padding-bottom: 8px;
+            }
             .field-container {
-                height: auto;
-                min-height: 360px;
-                border-radius: 14px;
-                padding-bottom: 12px;
+                width: 900px;
+                min-width: 900px;
+                height: 600px;
+                border-radius: 20px 20px 50% 50%;
+                padding-bottom: 0;
             }
-            .base-diamond { display: none; }
-            .pos-box {
-                position: static;
-                width: 100%;
-                margin-bottom: 8px;
-            }
+            .base-diamond { display: block; }
             .pos-box h3 { font-size: 0.75rem; }
         }

@@ -147,6 +147,7 @@ const bList = document.getElementById('batter-list');
 const slider = document.getElementById('yearSlider');
 const displayYear = document.getElementById('displayYear');
 const searchInput = document.getElementById('searchInput');
+const gradeFilter = document.getElementById('gradeFilter');
 const sortSelect = document.getElementById('sortSelect');
 const resultCount = document.getElementById('result-count');
 
@@ -306,6 +307,7 @@ slider.addEventListener('input', e => {
 });
 
 searchInput.addEventListener('input', loadTeam);
+gradeFilter.addEventListener('change', loadTeam);
 sortSelect.addEventListener('change', loadTeam);
 
 function loadTeam() {
@@ -325,8 +327,12 @@ function loadTeam() {
     });
 
     const query = (searchInput.value || '').trim().toLowerCase();
-    simulatedRoster = simulatedRoster.filter(p => {
-        return !query || p.name.toLowerCase().includes(query);
+const gradeValue = gradeFilter.value;
+simulatedRoster = simulatedRoster.filter(p => {
+    const matchedName = !query || p.name.toLowerCase().includes(query);
+    const matchedGrade = gradeValue === 'ALL' || getGrade(p.simStat) === gradeValue;
+    return matchedName && matchedGrade;
+});
     });
 
     const sortValue = sortSelect.value;
@@ -351,7 +357,6 @@ function loadTeam() {
             <span class="dist-box bg-C text-black">C 0</span>
             <span class="dist-box bg-D text-black">D 0</span>
         `;
-        return;
     }
 
     let totalAge = 0;

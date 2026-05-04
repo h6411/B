@@ -99,9 +99,11 @@
             flex-wrap: wrap;
             align-items: center;
         }
+
         .filter-controls input {
             min-width: 220px;
         }
+
         .filter-controls select {
             min-width: 150px;
         }

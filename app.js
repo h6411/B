@@ -130,6 +130,22 @@ function parseRosterText(text) {
 
 const database = parseRosterText(rawRosterText);
 
+const TEAM_THEMES = {
+    'LG 트윈스': { primary: '#c30452', secondary: '#000000' },
+    'KIA 타이거즈': { primary: '#ea0029', secondary: '#06141f' },
+    '삼성 라이온즈': { primary: '#074ca1', secondary: '#c0c0c0' },
+    '두산 베어스': { primary: '#1a1748', secondary: '#eb1d25' },
+    '롯데 자이언츠': { primary: '#041e42', secondary: '#d00f31' }
+};
+
+function applyTeamTheme(team) {
+    const theme = TEAM_THEMES[team] || TEAM_THEMES['KIA 타이거즈'];
+    document.body.style.setProperty('--accent', theme.primary);
+    document.body.style.setProperty('--team-secondary', theme.secondary);
+    document.body.setAttribute('data-team', team);
+}
+
+
 function getGrade(stat) {
     if (stat >= 201) return "S";
     if (stat >= 151) return "A";
@@ -351,6 +367,7 @@ gradeFilter.addEventListener('change', loadTeam);
 sortSelect.addEventListener('change', loadTeam);
 
 function loadTeam() {
+    applyTeamTheme(currentTeam);
     document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.toggle('active', btn.innerText === currentTeam));
     pList.innerHTML = '';
     bList.innerHTML = '';

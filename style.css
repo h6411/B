@@ -14,15 +14,18 @@
             --opt-color: #a55eea;
             --modal-overlay: rgba(0, 0, 0, 0.7);
             --graph-stat: #ff5e5e;
+            --team-secondary: #000000;
         }
 
         body {
             font-family: 'Pretendard', 'Malgun Gothic', sans-serif;
-            background-color: var(--bg-color);
+            background: radial-gradient(circle at top, color-mix(in srgb, var(--team-secondary) 28%, var(--bg-color) 72%) 0%, var(--bg-color) 55%);
             color: var(--text-main);
             margin: 0;
             padding: 20px;
         }
+
+
 
         .container { max-width: 1200px; margin: 0 auto; }
 

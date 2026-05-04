@@ -333,7 +333,6 @@ simulatedRoster = simulatedRoster.filter(p => {
     const matchedGrade = gradeValue === 'ALL' || getGrade(p.simStat) === gradeValue;
     return matchedName && matchedGrade;
 });
-    });
 
     const sortValue = sortSelect.value;
     simulatedRoster.sort((a, b) => {

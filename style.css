@@ -95,8 +95,17 @@
             display: flex;
             justify-content: center;
             gap: 10px;
-            margin-bottom: 8px;
+            margin: 4px auto 8px auto;
             flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .filter-controls input {
+            min-width: 220px;
+        }
+
+        .filter-controls select {
+            min-width: 150px;
         }
         .filter-controls input,
         .filter-controls select {
@@ -515,4 +524,118 @@
             border-radius: 4px;
             margin-right: 8px;
             color: #fff;
+        }
+
+        @media (max-width: 900px) {
+            body { padding: 12px; }
+            .team-dashboard {
+                padding: 12px;
+                gap: 10px;
+            }
+            .dash-item {
+                flex: 1 1 45%;
+            }
+            .grade-dist {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            .field-container {
+                height: 520px;
+                border-width: 3px;
+            }
+            .pos-box {
+                width: 115px;
+                padding: 4px;
+            }
+            .pos-name { max-width: 68px; }
+        }
+
+        @media (max-width: 640px) {
+            body {
+                padding-left: max(10px, env(safe-area-inset-left));
+                padding-right: max(10px, env(safe-area-inset-right));
+                padding-bottom: max(12px, env(safe-area-inset-bottom));
+            }
+            .time-display { font-size: 1.6rem; }
+            .time-labels, input[type=range] { width: 95%; }
+            .tabs { gap: 6px; }
+            .tab-btn {
+                padding: 8px 12px;
+                font-size: 0.85rem;
+            }
+            .view-controls {
+                gap: 8px;
+                margin-bottom: 10px;
+            }
+            .view-btn, .fa-search-btn {
+                padding: 8px 12px;
+                font-size: 0.82rem;
+            }
+            .filter-controls {
+                gap: 8px;
+                margin-top: 6px;
+            }
+            .filter-controls input,
+            .filter-controls select,
+            .clear-btn {
+                width: 100%;
+                max-width: 100%;
+                min-height: 42px;
+            }
+            .result-count { margin-bottom: 10px; }
+            .roster-section {
+                flex-direction: column;
+                gap: 14px;
+            }
+            .column { min-width: 100%; }
+            .player-card {
+                padding: 12px;
+                margin-bottom: 10px;
+            }
+            .name { font-size: 1rem; }
+            .detail { font-size: 0.8rem; }
+            .stat-value { font-size: 1.1rem; }
+            .modal {
+                width: calc(100% - 16px);
+                padding: 16px;
+                border-width: 1px;
+                max-height: 92vh;
+            }
+            .modal-header h2 {
+                font-size: 1.2rem;
+                padding-right: 24px;
+            }
+            .scout-table {
+                font-size: 0.78rem;
+            }
+            .scout-table th,
+            .scout-table td {
+                padding: 6px 4px;
+            }
+            .fa-item {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 6px;
+            }
+            .fa-item > div:last-child {
+                width: 100%;
+                text-align: left !important;
+            }
+            .modal-note {
+                font-size: 0.82rem;
+                line-height: 1.35;
+            }
+            .field-container {
+                height: auto;
+                min-height: 360px;
+                border-radius: 14px;
+                padding-bottom: 12px;
+            }
+            .base-diamond { display: none; }
+            .pos-box {
+                position: static;
+                width: 100%;
+                margin-bottom: 8px;
+            }
+            .pos-box h3 { font-size: 0.75rem; }
         }

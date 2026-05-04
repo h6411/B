@@ -327,11 +327,12 @@ function loadTeam() {
     });
 
     const query = (searchInput.value || '').trim().toLowerCase();
-    const gradeValue = gradeFilter.value;
-    simulatedRoster = simulatedRoster.filter(p => {
-        const matchedName = !query || p.name.toLowerCase().includes(query);
-        const matchedGrade = gradeValue === 'ALL' || getGrade(p.simStat) === gradeValue;
-        return matchedName && matchedGrade;
+const gradeValue = gradeFilter.value;
+simulatedRoster = simulatedRoster.filter(p => {
+    const matchedName = !query || p.name.toLowerCase().includes(query);
+    const matchedGrade = gradeValue === 'ALL' || getGrade(p.simStat) === gradeValue;
+    return matchedName && matchedGrade;
+});
     });
 
     const sortValue = sortSelect.value;

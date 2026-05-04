@@ -212,10 +212,14 @@ const chartContainer = document.getElementById('chart-container');
 const faModal = document.getElementById('faModal');
 const faYearTitle = document.getElementById('fa-year-title');
 const faListBody = document.getElementById('fa-list-body');
+let currentModalPlayer = null;
 
 function closeModal(e, id) {
     const modal = document.getElementById(id);
-    if (e.target === modal || e.target.classList.contains('close-btn')) modal.classList.remove('active');
+    if (e.target === modal || e.target.classList.contains('close-btn')) {
+        modal.classList.remove('active');
+        if (id === 'playerModal') currentModalPlayer = null;
+    }
 }
 
 function drawChart(data) {
@@ -252,6 +256,7 @@ function getContractTextForSeason(player, stoveSeason) {
 }
 
 function openPlayerModal(player) {
+    currentModalPlayer = player;
     modalName.innerText = player.name;
     const currentSim = calculateFutureStat(player, currentSeason);
     const optOutDisplay = player.optOut !== 'X' ? ` | 옵트아웃 ${player.optOut}` : '';
@@ -338,6 +343,7 @@ slider.addEventListener('input', e => {
     currentSeason = parseInt(e.target.value, 10);
     displayYear.innerText = currentSeason;
     loadTeam();
+    if (modalOverlay.classList.contains('active') && currentModalPlayer) openPlayerModal(currentModalPlayer);
 });
 
 searchInput.addEventListener('input', loadTeam);

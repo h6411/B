@@ -88,47 +88,6 @@
             border-color: var(--accent);
         }
 
-        .tab-btn[data-team='LG 트윈스'] { border-bottom: 2px solid #c30452; }
-        .tab-btn[data-team='KIA 타이거즈'] { border-bottom: 2px solid #ea0029; }
-        .tab-btn[data-team='삼성 라이온즈'] { border-bottom: 2px solid #074ca1; }
-        .tab-btn[data-team='두산 베어스'] { border-bottom: 2px solid #eb1d25; }
-        .tab-btn[data-team='롯데 자이언츠'] { border-bottom: 2px solid #d00f31; }
-
-        .player-card {
-            box-shadow: 0 4px 10px color-mix(in srgb, var(--team-secondary) 35%, transparent);
-        }
-
-        .fa-item {
-            border-left: 4px solid #555;
-            border-radius: 6px;
-            margin-bottom: 6px;
-            background: rgba(255,255,255,0.02);
-        }
-        .fa-item[data-team='LG 트윈스'] { border-left-color: #c30452; }
-        .fa-item[data-team='KIA 타이거즈'] { border-left-color: #ea0029; }
-        .fa-item[data-team='삼성 라이온즈'] { border-left-color: #074ca1; }
-        .fa-item[data-team='두산 베어스'] { border-left-color: #eb1d25; }
-        .fa-item[data-team='롯데 자이언츠'] { border-left-color: #d00f31; }
-
-
-        .tab-btn[data-team='LG 트윈스'].active { box-shadow: 0 0 12px rgba(195, 4, 82, 0.45); }
-        .tab-btn[data-team='KIA 타이거즈'].active { box-shadow: 0 0 12px rgba(234, 0, 41, 0.45); }
-        .tab-btn[data-team='삼성 라이온즈'].active { box-shadow: 0 0 12px rgba(7, 76, 161, 0.45); }
-        .tab-btn[data-team='두산 베어스'].active { box-shadow: 0 0 12px rgba(235, 29, 37, 0.45); }
-        .tab-btn[data-team='롯데 자이언츠'].active { box-shadow: 0 0 12px rgba(208, 15, 49, 0.45); }
-
-        .player-card[data-team='LG 트윈스'] { border-top: 2px solid #c30452; }
-        .player-card[data-team='KIA 타이거즈'] { border-top: 2px solid #ea0029; }
-        .player-card[data-team='삼성 라이온즈'] { border-top: 2px solid #074ca1; }
-        .player-card[data-team='두산 베어스'] { border-top: 2px solid #eb1d25; }
-        .player-card[data-team='롯데 자이언츠'] { border-top: 2px solid #d00f31; }
-
-        .fa-item[data-team='LG 트윈스'] { background: linear-gradient(90deg, rgba(195,4,82,0.18), rgba(255,255,255,0.02)); }
-        .fa-item[data-team='KIA 타이거즈'] { background: linear-gradient(90deg, rgba(234,0,41,0.18), rgba(255,255,255,0.02)); }
-        .fa-item[data-team='삼성 라이온즈'] { background: linear-gradient(90deg, rgba(7,76,161,0.18), rgba(255,255,255,0.02)); }
-        .fa-item[data-team='두산 베어스'] { background: linear-gradient(90deg, rgba(235,29,37,0.18), rgba(255,255,255,0.02)); }
-        .fa-item[data-team='롯데 자이언츠'] { background: linear-gradient(90deg, rgba(208,15,49,0.18), rgba(255,255,255,0.02)); }
-
         .view-controls {
             display: flex;
             justify-content: center;

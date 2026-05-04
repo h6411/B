@@ -636,6 +636,17 @@
                 position: static;
                 width: 100%;
                 margin-bottom: 8px;
+                transform: none !important;
+                left: auto !important;
+                right: auto !important;
+                top: auto !important;
+                bottom: auto !important;
             }
             .pos-box h3 { font-size: 0.75rem; }
+            .pos-player {
+                font-size: 0.72rem;
+            }
+            .pos-name {
+                max-width: calc(100% - 42px);
+            }
         }

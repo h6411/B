@@ -91,6 +91,45 @@
             margin-bottom: 15px;
             flex-wrap: wrap;
         }
+        .toolbar {
+            display: flex;
+            justify-content: center;
+            align-items: flex-end;
+            gap: 12px;
+            margin: 0 auto 16px auto;
+            flex-wrap: wrap;
+            background: linear-gradient(145deg, #25253a, #30304a);
+            border: 1px solid #3b3b58;
+            border-radius: 12px;
+            padding: 10px 12px;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.25);
+        }
+        .toolbar-item { display: flex; flex-direction: column; gap: 6px; }
+        .toolbar-item label { color: #bbb; font-size: 0.75rem; font-weight: 600; }
+        .toolbar-item input, .toolbar-item select {
+            background: #1f1f30;
+            color: #eee;
+            border: 1px solid #555b7a;
+            border-radius: 8px;
+            padding: 8px 10px;
+            min-width: 180px;
+            font-size: 0.9rem;
+            outline: none;
+        }
+        .toolbar-item input:focus, .toolbar-item select:focus {
+            border-color: var(--accent);
+            box-shadow: 0 0 0 2px rgba(76, 201, 240, 0.25);
+        }
+        .result-count {
+            align-self: center;
+            color: #9aa3c5;
+            font-size: 0.85rem;
+            font-weight: 600;
+            background: #1f1f30;
+            border: 1px solid #444a66;
+            border-radius: 999px;
+            padding: 8px 12px;
+        }
 
         .view-btn {
             background: #444;

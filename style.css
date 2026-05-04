@@ -639,4 +639,10 @@
             }
             .base-diamond { display: block; }
             .pos-box h3 { font-size: 0.75rem; }
+            .pos-player {
+                font-size: 0.72rem;
+            }
+            .pos-name {
+                max-width: calc(100% - 42px);
+            }
         }

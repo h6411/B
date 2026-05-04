@@ -625,23 +625,19 @@
                 font-size: 0.82rem;
                 line-height: 1.35;
             }
+            #view-depth {
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+                padding-bottom: 8px;
+            }
             .field-container {
-                height: auto;
-                min-height: 360px;
-                border-radius: 14px;
-                padding-bottom: 12px;
+                width: 900px;
+                min-width: 900px;
+                height: 600px;
+                border-radius: 20px 20px 50% 50%;
+                padding-bottom: 0;
             }
-            .base-diamond { display: none; }
-            .pos-box {
-                position: static;
-                width: 100%;
-                margin-bottom: 8px;
-                transform: none !important;
-                left: auto !important;
-                right: auto !important;
-                top: auto !important;
-                bottom: auto !important;
-            }
+            .base-diamond { display: block; }
             .pos-box h3 { font-size: 0.75rem; }
             .pos-player {
                 font-size: 0.72rem;

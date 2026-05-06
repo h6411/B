@@ -394,6 +394,8 @@
             pointer-events: none;
             transition: opacity 0.3s;
         }
+        #playerModal { z-index: 1100; }
+        #faModal { z-index: 1000; }
 
         .modal-overlay.active {
             opacity: 1;

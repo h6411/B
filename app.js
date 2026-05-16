@@ -272,8 +272,18 @@ function getContractTextForSeason(player, stoveSeason) {
     return labels.length ? labels.join(" / ") : "-";
 }
 
+function applyPlayerModalTheme(team) {
+    const resolvedTeam = team || currentTeam;
+    const theme = TEAM_THEMES[resolvedTeam] || TEAM_THEMES['KIA 타이거즈'];
+    modalOverlay.style.setProperty('--accent', theme.primary);
+    modalOverlay.style.setProperty('--team-primary', theme.primary);
+    modalOverlay.style.setProperty('--team-secondary', theme.secondary);
+}
+
 function openPlayerModal(player) {
     currentModalPlayer = player;
+    const playerTeam = player.team || player._team || currentTeam;
+    applyPlayerModalTheme(playerTeam);
     modalName.innerText = player.name;
     const currentSim = calculateFutureStat(player, currentSeason);
     const optOutDisplay = player.optOut !== 'X' ? ` | 옵트아웃 ${player.optOut}` : '';
@@ -383,7 +393,7 @@ function loadTeam() {
 
     let simulatedRoster = roster.map(p => {
         const simData = calculateFutureStat(p, currentSeason);
-        return { ...p, simAge: simData.age, simStat: simData.stat, _origin: p };
+        return { ...p, simAge: simData.age, simStat: simData.stat, _origin: p, _team: currentTeam };
     });
 
     const query = (searchInput.value || '').trim().toLowerCase();
@@ -466,7 +476,7 @@ simulatedRoster = simulatedRoster.filter(p => {
         const card = document.createElement('div');
         card.className = `player-card border-${grade}`;
         card.dataset.team = currentTeam;
-        card.onclick = () => openPlayerModal(player._origin);
+        card.onclick = () => openPlayerModal({ ...player._origin, _team: currentTeam });
         card.innerHTML = `
             <div class="info">
                 <div class="header-row">
@@ -507,7 +517,7 @@ simulatedRoster = simulatedRoster.filter(p => {
                 const div = document.createElement('div');
                 div.className = 'pos-player';
                 div.style.cursor = 'pointer';
-                div.onclick = e => { e.stopPropagation(); openPlayerModal(p._origin); };
+                div.onclick = e => { e.stopPropagation(); openPlayerModal({ ...p._origin, _team: currentTeam }); };
                 div.innerHTML = `<span class="pos-name">${p.name}</span><span class="pos-stat">${p.simStat}</span>`;
                 boxList.appendChild(div);
             });
@@ -522,7 +532,7 @@ simulatedRoster = simulatedRoster.filter(p => {
                     const pDiv = document.createElement('div');
                     pDiv.className = 'pos-player';
                     pDiv.style.cursor = 'pointer';
-                    pDiv.onclick = e => { e.stopPropagation(); openPlayerModal(p._origin); };
+                    pDiv.onclick = e => { e.stopPropagation(); openPlayerModal({ ...p._origin, _team: currentTeam }); };
                     pDiv.innerHTML = `<span class="pos-name">${p.name}</span><span class="pos-stat">${p.simStat}</span>`;
                     popup.appendChild(pDiv);
                 });
